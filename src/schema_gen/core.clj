@@ -113,9 +113,13 @@
         (for [entry required]
           (apply gen/tuple (map generate entry))))))))
 
-(defn generate-examples [schema]
-  "Given a single schema, produce examples which fulfil it."
-  (-> schema generate gen/sample))
+(defn generate-examples
+  "- Given a single schema, produce examples which fulfil it.
+   - Optional count parameter for number of samples to produce"
+  ([schema]
+     (generate-examples schema 10))
+  ([schema count]
+     (gen/sample (generate schema) count)))
 
 (defn generate-examples-with-details [& args]
   "- Given a schema, output its details as read by s/explain and then list a few examples which fulfil the schema.
