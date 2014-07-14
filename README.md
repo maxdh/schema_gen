@@ -13,7 +13,7 @@ Please also note that `generate-examples-with-details` may fail for a given inpu
 ```clojure
 (ns gen-examples
   (:require [schema.core :as s]
-	    [schema-gen.core :as sg))
+	    [schema-gen.core :as sg]))
 
 (def simpleSchema
   "A simple schema to generate from"
@@ -36,8 +36,3 @@ Copyright © 2014 Mastodon C Ltd
 
 Distributed under the Eclipse Public License version 1.0.
 
-=======
-schema_gen
-==========
-
-Generate example data which follows a supplied Prismatic Schema.

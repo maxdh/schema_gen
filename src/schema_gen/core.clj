@@ -59,15 +59,14 @@
     (generate [x]
       (partial (gen/such-that (generate (:p? x)))))))
 
-
 (extend-type clojure.lang.APersistentVector
   Generatable
   (generate [x]
     (let [[ones [repeated]] (split-with #(instance? schema.core.One %) x)
           [required optional] (split-with (comp not :optional?) ones)]
-      
       (g-by
-       concat
+       #(vec (flatten (concat %&)))
+      ; concat
        (g-or
         (apply gen/tuple (map generate required))
         (apply gen/tuple (map generate (concat required optional))))
