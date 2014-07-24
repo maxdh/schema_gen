@@ -1,6 +1,5 @@
-(defproject kixi/schema_gen "0.1.0"
+(defproject kixi/schema_gen "0.1.1"
   :description "Data generation from Prismatic schemas"
-  :lein-release {:deploy-via :clojars}
   :url "https://github.com/maxdh/schema_gen.git"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}

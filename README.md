@@ -2,6 +2,8 @@
 
 A Clojure library to generate examples which fulfil a supplied Prismatic Schema.
 
+Leiningen dependency (Clojars): ``[kixi/schema_gen "0.1.1"]``.
+
 This code is mostly based off of a Gist by Dave Golland (which can be found [here](https://gist.github.com/davegolland/3bc4277fe109e7b11770)) with a few additions for other schema elements and types, and a couple of methods to return a list of examples that match a schema.
 
 Currently I am trying to add functionality for `s/pred`.
@@ -13,7 +15,7 @@ Please also note that `generate-examples-with-details` may fail for a given inpu
 ```clojure
 (ns gen-examples
   (:require [schema.core :as s]
-	    [schema-gen.core :as sg]))
+	    [schema_gen.core :as sg]))
 
 (def simpleSchema
   "A simple schema to generate from"

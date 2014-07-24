@@ -1,4 +1,4 @@
-(ns schema-gen.core
+(ns schema_gen.core
   "Methods to generate examples that follow a supplied Prismatic Schema.
    This is mostly code from a Gist by Dave Golland with a few additions by me to support additional types and schema elements."
   (:require
