@@ -53,7 +53,10 @@
     (gen/one-of (map generate (:vs x)))))
 
 (comment
-  "not working - seems to read other elemnts as predicates too ..."
+  "not working - seems to read other schema elements as predicates too ...
+   For example both of the following return true:
+   (instance? schema.core.Predicate s/Int)
+   (instance? schema.core.Predicate (s/pred odd?))"
   (extend-type schema.core.Predicate
     Generatable
     (generate [x]
@@ -64,9 +67,9 @@
   (generate [x]
     (let [[ones [repeated]] (split-with #(instance? schema.core.One %) x)
           [required optional] (split-with (comp not :optional?) ones)]
+
       (g-by
        #(vec (flatten (concat %&)))
-      ; concat
        (g-or
         (apply gen/tuple (map generate required))
         (apply gen/tuple (map generate (concat required optional))))
