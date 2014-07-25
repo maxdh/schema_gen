@@ -42,8 +42,8 @@ There is also support for ``ISO-Date-Time`` generation from the [schema-contrib]
 	    [schema-contrib.core :as sc])
 
 (def dateSchema
-  {:Name s/Str
-   :Date sc/ISO-Date-Time})
+  {:name s/Str
+   :date sc/ISO-Date-Time})
 
 (sg/generate-examples-with-details dateSchema)
 ;; === SCHEMA ===
