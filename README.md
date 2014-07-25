@@ -32,14 +32,14 @@ Please also note that `generate-examples-with-details` may fail for a given inpu
 ;; ("Hello" "Hello" true false "Hello" "World" false true true false)
 ```
 
-##### Dates
+#### Dates
 There is also support for ``ISO-Date-Time`` generation from the [schema-contrib](https://github.com/sfx/schema-contrib) library.
 
 ```clojure
 (ns gen-examples
   (:require [schema.core :as s]
 	    [schema_gen.core :as sg]
-	    [clj-time.coerce :as c])
+	    [schema-contrib.core :as sc])
 
 (def dateSchema
   {:Name s/Str
