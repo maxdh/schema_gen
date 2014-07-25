@@ -4,7 +4,9 @@
   (:require
    [schema.core :as s]
    [clojure.pprint :as pprint]
-   [clojure.test.check.generators :as gen]))
+   [clojure.test.check.generators :as gen]
+   [schema-contrib.core :as sc]
+   [clj-time.coerce :as c]))
 
 (defn g-by [f & args]
   (gen/fmap
@@ -30,6 +32,7 @@
      (= x String) gen/string-ascii
      (= x s/Keyword) gen/keyword
      (= x Number) gen/s-neg-int ;no generator for doubles, so just generate a negative int, is this good enough? Otherwise could import clojure.data.generators and use that for more options.
+     (= x sc/ISO-Date-Time) (gen/fmap #(str (c/from-long %)) (gen/choose (- (System/currentTimeMillis)) (* 2(System/currentTimeMillis))))
      :else (gen/return x))))
 
 (extend-type schema.core.Either

@@ -2,11 +2,11 @@
 
 A Clojure library to generate examples which fulfil a supplied Prismatic Schema.
 
-Leiningen dependency (Clojars): ``[kixi/schema_gen "0.1.1"]``.
+Leiningen dependency (Clojars): ``[kixi/schema_gen "0.1.2"]``.
 
 This code is mostly based off of a Gist by Dave Golland (which can be found [here](https://gist.github.com/davegolland/3bc4277fe109e7b11770)) with a few additions for other schema elements and types, and a couple of methods to return a list of examples that match a schema.
 
-Currently I am trying to add functionality for `s/pred`.
+Currently I would like to add functionality for `s/pred`.
 
 Please also note that `generate-examples-with-details` may fail for a given input, but `generate-examples` could work for the same input in some cases.
 
@@ -30,6 +30,35 @@ Please also note that `generate-examples-with-details` may fail for a given inpu
 ;; (enum "World" java.lang.Boolean "Hello")
 ;; == Samples ==
 ;; ("Hello" "Hello" true false "Hello" "World" false true true false)
+```
+
+##### Dates
+There is also support for ``ISO-Date-Time`` generation from the [schema-contrib](https://github.com/sfx/schema-contrib) library.
+
+```clojure
+(ns gen-examples
+  (:require [schema.core :as s]
+	    [schema_gen.core :as sg]
+	    [clj-time.coerce :as c])
+
+(def dateSchema
+  {:Name s/Str
+   :Date sc/ISO-Date-Time})
+
+(sg/generate-examples-with-details dateSchema)
+;; === SCHEMA ===
+;; {:name java.lang.String, :age Int, :date (pred ISO-Date-Time)}
+;; == Samples ==
+;; ({:date "1985-03-12T21:11:27.807Z", :age 0, :name ""}
+;; {:date "1928-12-22T10:16:24.168Z", :age 0, :name "7"}
+;; {:date "1945-10-23T05:40:27.775Z", :age 2, :name "W"}
+;; {:date "2046-06-25T07:33:01.036Z", :age -3, :name ""}
+;; {:date "1928-11-30T19:19:15.086Z", :age -4, :name "4&P"}
+;; {:date "1968-05-14T02:47:39.049Z", :age -2, :name "r?i"}
+;; {:date "1935-05-02T08:05:22.810Z", :age 1, :name "("}
+;; {:date "2034-08-30T02:53:24.470Z", :age -2, :name ""}
+;; {:date "2012-01-08T12:32:19.297Z", :age -2, :name "_g/"}
+;; {:date "1960-03-13T05:10:00.723Z", :age 7, :name "\"23v"})
 ```
 
 ## License
