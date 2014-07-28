@@ -99,13 +99,15 @@
   Generatable
   (generate [x]
     
-    (let [[required other] (split-with
+    (let [split-data  (group-by
                             (fn [[k v]]
                               (or (keyword? k)
-                                  (instance? schema.core.RequiredKey k))) x)
+                                  (s/required-key? k))) x)
+          required    (into () (get-in split-data ['true]))
+          other       (into () (get-in split-data ['false]))
           
           [optional [repeated]] (split-with
-                                 (fn [[k v]] (instance? schema.core.OptionalKey k)) other)]
+                                 (fn [[k v]] (s/optional-key? k)) other)]
       
       (g-by
        merge
