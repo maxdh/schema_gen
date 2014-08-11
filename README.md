@@ -2,7 +2,7 @@
 
 A Clojure library to generate examples which fulfil a supplied Prismatic Schema.
 
-Leiningen dependency (Clojars): ``[kixi/schema_gen "0.1.3"]``.
+Leiningen dependency (Clojars): ``[kixi/schema_gen "0.1.4"]``.
 
 This code is mostly based off of a Gist by Dave Golland (which can be found [here](https://gist.github.com/davegolland/3bc4277fe109e7b11770)) with a few additions for other schema elements and types, and a couple of methods to return a list of examples that match a schema.
 

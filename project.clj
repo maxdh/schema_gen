@@ -1,4 +1,4 @@
-(defproject kixi/schema_gen "0.1.3"
+(defproject kixi/schema_gen "0.1.4"
   :description "Data generation from Prismatic schemas"
   :url "https://github.com/maxdh/schema_gen.git"
   :license {:name "Eclipse Public License"
