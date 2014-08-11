@@ -75,7 +75,7 @@
   (extend-type schema.core.Predicate
     Generatable
     (generate [x]
-      (partial (gen/such-that (generate (:p? x)))))))
+      (partial (gen/such-that (generate (:p? x)) 20)))))
 
 (extend-type clojure.lang.APersistentVector
   Generatable
