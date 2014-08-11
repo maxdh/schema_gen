@@ -2,13 +2,13 @@
 
 A Clojure library to generate examples which fulfil a supplied Prismatic Schema.
 
-Leiningen dependency (Clojars): ``[kixi/schema_gen "0.1.3"]``.
+Leiningen dependency (Clojars): ``[kixi/schema_gen "0.1.4"]``.
 
 This code is mostly based off of a Gist by Dave Golland (which can be found [here](https://gist.github.com/davegolland/3bc4277fe109e7b11770)) with a few additions for other schema elements and types, and a couple of methods to return a list of examples that match a schema.
 
-Currently I would like to add functionality for `s/pred`.
+Currently I would like to add functionality for ``s/pred``.
 
-Please also note that `generate-examples-with-details` may fail for a given input, but `generate-examples` could work for the same input in some cases.
+Please also note that ``generate-examples-with-details`` may fail for a given input, but ``generate-examples`` could work for the same input in some cases. For example ``s/both`` will not work with ``generate-examples-with-details`` depending on the arguments it is passed.
 
 ## Examples
 
@@ -60,6 +60,41 @@ There is also support for ``ISO-Date-Time`` generation from the [schema-contrib]
 ;; {:date "2012-01-08T12:32:19.297Z", :age -2, :name "_g/"}
 ;; {:date "1960-03-13T05:10:00.723Z", :age 7, :name "\"23v"})
 ```
+
+#### Both
+There is some limited support for ``s/both``. The schema has to follow a certain format to use it, but can be very useful. For example, it can be used to generate non-empty strings while still being a Prismatic Schema.
+
+The format must match:
+``(s/both pred object)``
+Where pred is a simple function such as ``odd?``, ``not-empty`` or something you define yourself. Object must be a schema object to generate such as ``s/Int``, ``s/Str``, ``s/Bool`` etc.
+
+The output of ``(sg/generate-examples s/Str)`` could be:
+``("" "" "" "" "1gd3" "QAM" "Rt " "^$" "W&GJUF0" "D*GiET")``
+
+In some cases such as feeding the generated data into a database you may not allow empty strings, which is why ``s/both`` can be useful. It can also be used to generated only odd numbers, numbers greater than 5 etc.
+
+```clojure
+(ns gen-examples
+  (:require [schema.core :as s]
+	    [schema_gen.core :as sg]
+	    [schema-contrib.core :as sc])
+
+(def bothSchema
+  {:name (s/both not-empty s/Str)
+   :address s/Str})
+
+;;generate-examples-with details cannot be used on 'both'
+(sg/generate-examples bothSchema)
+;; ({:name "*?", :address ""} {:name "FR", :address "a"} {:name "C", :address "RM"} {:name "tP)", :address "]qI"} {:name "z", :address ""} {:name "MQ\\", :address "iVbnF"} {:name ";bx}R.", :address "7.6-{"} {:name "ibcue|d", :address "[_91"} {:name "pn", :address "L"} {:name "*d$!5O}-", :address "o,%iA)"})
+
+(sg/generate-examples (s/both #(> % 5) s/Int))
+;; (7 8 8 6 7 8 7 8 6 8)
+
+(sg/generate-examples (s/both odd? s/Int))
+;; (-3 -1 -1 9 1 -1 -5 7 -1 5)
+```
+
+Currently ``generate-examples-with-details`` and ``validator`` cannot be used with ``both``. Also ``both`` uses test.check's ``gen/such-that`` which has a maximum number of retries, so it can fail sometimes. Especially if the first argument is hard to fulfil.
 
 ## License
 

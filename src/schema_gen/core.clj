@@ -55,6 +55,18 @@
   (generate [x]
     (gen/one-of (map generate (:vs x)))))
 
+;; Both works when s/both is used with exactly two arguments,
+;; where the first is a predicate such as "odd?" and the second is a
+;; generatable schema type.
+;; e.g. (generate-examples (s/both odd? s/Int))
+(extend-type schema.core.Both
+  Generatable
+  (generate [x]
+    (if (= (count (:schemas x)) 2) 
+      (let [[first second] (:schemas x)]
+        (gen/such-that first (generate second)))
+      (throw (Exception. "Incorrect number of args for generation of 'both'\nMust be: (both pred object)\nSee docs for examples.") ))))
+
 (comment
   "not working - seems to read other schema elements as predicates too ...
    For example both of the following return true:
@@ -63,7 +75,7 @@
   (extend-type schema.core.Predicate
     Generatable
     (generate [x]
-      (partial (gen/such-that (generate (:p? x)))))))
+      (partial (gen/such-that (generate (:p? x)) 20)))))
 
 (extend-type clojure.lang.APersistentVector
   Generatable
