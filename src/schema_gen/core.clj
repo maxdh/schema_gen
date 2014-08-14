@@ -40,6 +40,11 @@
   (generate [x]
     (gen/one-of (map generate (:schemas x)))))
 
+(extend-type schema.core.Maybe
+  Generatable
+  (generate [x]
+    (g-or (gen/return nil) (generate (:schema x)))))
+
 (extend-type schema.core.One
   Generatable
   (generate [x]
