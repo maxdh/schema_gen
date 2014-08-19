@@ -27,7 +27,6 @@
   (generate [x]
     (cond
      (= x s/Int) gen/int
-     (= x s/Bool) gen/boolean
      (= x Boolean) gen/boolean
      (= x String) gen/string-ascii
      (= x s/Keyword) gen/keyword
@@ -50,6 +49,11 @@
   Generatable
   (generate [x]
     (generate (:schema x))))
+
+(extend-type schema.core.AnythingSchema
+  Generatable
+  (generate [x]
+    gen/any))
 
 (extend-type schema.core.EqSchema
   Generatable
