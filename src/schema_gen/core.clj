@@ -31,7 +31,7 @@
      (= x Boolean) gen/boolean
      (= x String) gen/string-ascii
      (= x s/Keyword) gen/keyword
-    ; (= x s/Symbol) gen/symbol
+     (= x s/Symbol) gen/symbol
      (= x Number) (gen/fmap #(* % (rand)) (gen/elements [-1 1]))
      (= x sc/ISO-Date-Time) (gen/fmap #(str (c/from-long %)) (gen/choose (- (System/currentTimeMillis)) (* 2(System/currentTimeMillis))))
      :else (gen/return x))))
